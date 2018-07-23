@@ -527,11 +527,12 @@ limitations under the License.
 
     .lh-gauge__percentage {
       --spacer: calc((var(--circle-size) - var(--inset-size)) / 2);
-      width: var(--inset-size);
+      width: 100%;
       height: var(--inset-size);
       position: absolute;
       border-radius: inherit;
       font-size: var(--header-font-size);
+      line-height: var(--header-font-size);
       text-align: center;
       top: calc(var(--circle-size) / 3);
     }
