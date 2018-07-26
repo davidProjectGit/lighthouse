@@ -297,15 +297,6 @@ class Util {
   }
 
   /**
-   * @param {number} startTime
-   * @param {number} endTime
-   * @return {string}
-   */
-  static chainDuration(startTime, endTime) {
-    return Util.formatNumber((endTime - startTime) * 1000);
-  }
-
-  /**
    * @param {LH.Config.Settings} settings
    * @return {Array<{name: string, description: string}>}
    */
@@ -405,6 +396,10 @@ Util.UIStrings = {
   toplevelWarningsMessage: 'There were issues affecting this run of Lighthouse:',
   /** Label preceding a pictorial explanation of the scoring scale: 0-50 is red (bad), 50-90 is orange (ok), 90-100 is green (good). These colors are used throughout the report to provide context for how good/bad a particular result is. */
   scorescaleLabel: 'Score scale:',
+
+  crcInitialNavigation: 'Initial Navigation',
+  crcLongestDurationLabel: 'Longest chain:',
+  crcTransferSizeLabel: 'Transfer Size:',
 };
 
 if (typeof module !== 'undefined' && module.exports) {
