@@ -54,7 +54,6 @@
   --metric-timeline-rule-color: #b3b3b3;
   --display-value-gray: hsl(216, 5%, 39%);
   --report-width: calc(60 * var(--body-font-size));
-  --report-content-width: calc(var(--report-width));
   --report-header-height: 161px;
   --report-header-color: #202124;
   --navitem-font-size: var(--body-font-size);
@@ -646,7 +645,7 @@
 
 .lh-container {
   display: flex;
-  max-width: var(--report-content-width);
+  max-width: var(--report-width);
   word-wrap: break-word;
   margin: 0 auto;
 }
@@ -665,7 +664,7 @@
 .lh-header-container {
   display: block;
   margin: 0 auto;
-  max-width: var(--report-content-width);
+  max-width: var(--report-width);
   position: relative;
   word-wrap: break-word;
 }
