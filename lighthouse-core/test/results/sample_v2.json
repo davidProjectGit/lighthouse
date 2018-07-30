@@ -3388,8 +3388,7 @@
       "toplevelWarningsMessage": "There were issues affecting this run of Lighthouse:",
       "scorescaleLabel": "Score scale:",
       "crcInitialNavigation": "Initial Navigation",
-      "crcLongestDurationLabel": "Longest chain:",
-      "crcTransferSizeLabel": "Transfer Size:"
+      "crcLongestDurationLabel": "Maximum critical path latency:"
     },
     "icuMessagePaths": {
       "lighthouse-core/audits/metrics/first-contentful-paint.js | title": [

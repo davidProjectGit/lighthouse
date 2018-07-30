@@ -162,10 +162,6 @@ class CriticalRequestChainRenderer {
         Util.UIStrings.crcLongestDurationLabel;
     dom.find('.lh-crc__longest_duration', tmpl).textContent =
         Util.formatMilliseconds(details.longestChain.duration);
-    dom.find('.lh-crc__longest_transfersize_label', tmpl).textContent =
-        Util.UIStrings.crcTransferSizeLabel;
-    dom.find('.lh-crc__longest_transfersize', tmpl).textContent =
-        Util.formatBytesToKB(details.longestChain.transferSize);
 
     // Construct visual tree.
     const root = CriticalRequestChainRenderer.initTree(details.chains);
