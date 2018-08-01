@@ -13,6 +13,21 @@ const puppeteer = require('../../node_modules/puppeteer/index.js');
 
 const lighthouseExtensionPath = path.resolve(__dirname, '../dist');
 
+const defaultCategoriesStub = [
+  {
+    id: 'performance',
+    title: 'Performance',
+  },
+  {
+    id: 'pwa',
+    title: 'Progressive Web App',
+  },
+  {
+    id: 'seo',
+    title: 'SEO',
+  },
+];
+
 describe('Lighthouse chrome popup', function() {
   // eslint-disable-next-line no-console
   console.log('\n✨ Be sure to have recently run this: yarn build-extension');
@@ -32,7 +47,7 @@ describe('Lighthouse chrome popup', function() {
     });
 
     page = await browser.newPage();
-    await page.evaluateOnNewDocument(() => {
+    await page.evaluateOnNewDocument((defaultCategoriesStub) => {
       const backgroundMock = {
         isRunning: () => false,
         listenForStatus: () => {},
@@ -40,28 +55,7 @@ describe('Lighthouse chrome popup', function() {
           selectedCategories: [],
           useDevTools: false,
         }),
-        getDefaultCategories: () => [
-          {
-            id: 'performance',
-            title: 'Performance',
-          },
-          {
-            id: 'pwa',
-            title: 'Progressive Web App',
-          },
-          {
-            id: 'accessibility',
-            title: 'Accessibility',
-          },
-          {
-            id: 'best-practices',
-            title: 'Best Practices',
-          },
-          {
-            id: 'seo',
-            title: 'SEO',
-          },
-        ],
+        getDefaultCategories: () => defaultCategoriesStub,
       };
 
       Object.defineProperty(chrome, 'tabs', {
@@ -80,7 +74,7 @@ describe('Lighthouse chrome popup', function() {
           },
         }),
       });
-    });
+    }, defaultCategoriesStub);
 
     page.on('pageerror', err => {
       pageErrors.push(err);
@@ -115,11 +109,13 @@ describe('Lighthouse chrome popup', function() {
   });
 
 
-  // Kinda lame as the mocked data is already good.
-  // A real test would verify the switch happens in the background page's getDefaultCategories
-  it('should not have any ICU message IDs in the DOM', async function() {
-    const bodyText = await page.evaluate(() => document.body.textContent);
-    const hasIcuMessageInstanceIds = bodyText.includes(' | ') && bodyText.includes(' # ');
-    assert.ok(!hasIcuMessageInstanceIds, 'icu message ids found');
+  it('should populate the category checkboxes correctly', async function() {
+    const checkboxTitles = await page.$$eval('li label', els => els.map(e => e.textContent));
+    const checkboxValues = await page.$$eval('li label input', els => els.map(e => e.value));
+
+    for (const {title, id} of defaultCategoriesStub) {
+      assert.ok(checkboxTitles.includes(title));
+      assert.ok(checkboxValues.includes(id));
+    }
   });
 });
