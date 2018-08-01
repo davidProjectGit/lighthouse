@@ -40,7 +40,28 @@ describe('Lighthouse chrome popup', function() {
           selectedCategories: [],
           useDevTools: false,
         }),
-        getDefaultCategories: () => [],
+        getDefaultCategories: () => [
+          {
+            id: 'performance',
+            title: 'Performance',
+          },
+          {
+            id: 'pwa',
+            title: 'Progressive Web App',
+          },
+          {
+            id: 'accessibility',
+            title: 'Accessibility',
+          },
+          {
+            id: 'best-practices',
+            title: 'Best Practices',
+          },
+          {
+            id: 'seo',
+            title: 'SEO',
+          },
+        ],
       };
 
       Object.defineProperty(chrome, 'tabs', {
@@ -91,5 +112,14 @@ describe('Lighthouse chrome popup', function() {
     assert.ok(!subPageIsVisible, 'Popup is stuck on the splash screen');
     assert.equal(titleText, 'Lighthouse');
     assert.equal(urlText, 'http://example.com');
+  });
+
+
+  // Kinda lame as the mocked data is already good.
+  // A real test would verify the switch happens in the background page's getDefaultCategories
+  it('should not have any ICU message IDs in the DOM', async function() {
+    const bodyText = await page.evaluate(() => document.body.textContent);
+    const hasIcuMessageInstanceIds = bodyText.includes(' | ') && bodyText.includes(' # ');
+    assert.ok(!hasIcuMessageInstanceIds, 'icu message ids found');
   });
 });
