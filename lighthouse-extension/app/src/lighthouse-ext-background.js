@@ -47,18 +47,18 @@ function updateBadgeUI(optUrl) {
 }
 
 /**
- * @param {{flags: LH.Flags}} options Lighthouse options.
+ * @param {LH.Flags} flags Lighthouse flags.
  * @param {Array<string>} categoryIDs Name values of categories to include.
  * @return {Promise<LH.RunnerResult|void>}
  */
-async function runLighthouseInExtension(options, categoryIDs) {
+async function runLighthouseInExtension(flags, categoryIDs) {
   // Default to 'info' logging level.
   log.setLevel('info');
   const connection = new ExtensionProtocol();
-  options.flags = Object.assign({}, options.flags, {output: 'html'});
+  flags.output = 'html';
 
   const url = await connection.getCurrentTabURL();
-  const runnerResult = await background.runLighthouseForConnection(connection, url, options,
+  const runnerResult = await background.runLighthouseForConnection(connection, url, flags,
     categoryIDs, updateBadgeUI);
   if (!runnerResult) {
     // For now, should always be a runnerResult as the extension can't do `gatherMode`
@@ -73,19 +73,17 @@ async function runLighthouseInExtension(options, categoryIDs) {
  * Run lighthouse for connection and provide similar results as in CLI.
  * @param {Connection} connection
  * @param {string} url
- * @param {{flags: LH.Flags} & {outputFormat: string, logAssets: boolean}} options Lighthouse options.
+ * @param {LH.Flags & {logAssets: boolean}} flags Lighthouse flags plus logAssets
           Specify outputFormat to change the output format.
  * @param {Array<string>} categoryIDs Name values of categories to include.
  * @return {Promise<string|Array<string>|void>}
  */
-async function runLighthouseAsInCLI(connection, url, options, categoryIDs) {
+async function runLighthouseAsInCLI(connection, url, flags, categoryIDs) {
   log.setLevel('info');
-  options.flags = Object.assign({}, options.flags, {output: options.outputFormat});
-
-  const results = await background.runLighthouseForConnection(connection, url, options,
-    categoryIDs);
+  // TODO(paulirish): update LR to provide flags and map outputFormat -> output
+  const results = await background.runLighthouseForConnection(connection, url, flags, categoryIDs);
   if (results) {
-    if (options && options.logAssets) {
+    if (flags && flags.logAssets) {
       await assetSaver.logAssets(results.artifacts, results.lhr.audits);
     }
 
