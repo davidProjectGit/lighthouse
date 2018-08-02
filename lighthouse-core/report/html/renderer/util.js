@@ -402,6 +402,21 @@ class Util {
   }
 
   /**
+   * @param {string} sourceString
+   * @return {string}
+   */
+  static str(sourceString) {
+    // If the renderer was provided new strings, we'll use those
+    if (Util.rendererFormattedStrings) {
+      const keyName = Object.keys(Util.UIStrings).find(key => Util.UIStrings[key] === sourceString);
+      const localizedString = Util.rendererFormattedStrings[/** @type {string} */ (keyName)];
+      if (localizedString) return localizedString;
+    }
+    // Otherwise, continue using the source string already referenced
+    return sourceString;
+  }
+
+  /**
    * Set the locale to be used for Util's number and date formatting functions.
    * @param {LH.Locale} locale
    */
@@ -413,6 +428,11 @@ class Util {
     if (Util.numberDateLocale === 'en-XA') Util.numberDateLocale = 'de-DE';
   }
 }
+
+/**
+ * @type {LH.I18NRendererStrings | undefined}
+ */
+Util.rendererFormattedStrings = undefined;
 
 /**
  * This value is updated on each run to the locale of the report
