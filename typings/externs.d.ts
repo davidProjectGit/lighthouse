@@ -58,7 +58,7 @@ declare global {
       cpuSlowdownMultiplier?: number
     }
 
-    export type Locale = 'ar'|'ar-XB'|'en'|'en-US'|'en-XA';
+    export type Locale = 'en'|'en-GB'|'ar-XB'|'ar'|'bg'|'ca'|'cs'|'da'|'de-AT'|'de-CH'|'de'|'el'|'en-IE'|'en-IN'|'en-SG'|'en-US'|'en-XA'|'en-ZA'|'es'|'fi'|'fil'|'fr-CH'|'fr'|'gsw'|'hi'|'hr'|'hu'|'id'|'it'|'iw'|'ja'|'ko'|'lt'|'lv'|'nl'|'no'|'pl'|'pt-BR'|'pt-PT'|'pt'|'ro'|'ru'|'sk'|'sl'|'sr'|'sv'|'ta'|'te'|'th'|'tr'|'uk'|'vi'|'zh-CN'|'zh-HK'|'zh-TW'
 
     export type OutputMode = 'json' | 'html' | 'csv';
 
